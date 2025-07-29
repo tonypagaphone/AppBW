@@ -16,6 +16,8 @@ import gspread
 import pytz
 from gspread_dataframe import get_as_dataframe
 from google.oauth2.service_account import Credentials
+import streamlit as st
+import json
 
 ##### MAIN #####
 
@@ -41,7 +43,10 @@ def convertir_a_excel(df):
 def cargar_base_operativa():
     # Autenticación
     scopes = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
-    creds = Credentials.from_service_account_file("credenciales.json", scopes=scopes)
+    creds = Credentials.from_service_account_info(
+    json.loads(st.secrets["GOOGLE_CREDENTIALS"]),
+    scopes=scopes
+    )
     client = gspread.authorize(creds)
 
     # Abrir archivo
