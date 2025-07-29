@@ -6,3 +6,4 @@ openpyxl
 xlsxwriter
 unidecode
 pytz
+gspread-dataframe
