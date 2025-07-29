@@ -1,4 +1,15 @@
+# Archivos sensibles
 credenciales.json
+
+# Cachés y entornos virtuales
 __pycache__/
-*.pyc
-.env
+*.py[cod]
+*.pyo
+.venv/
+env/
+venv/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
