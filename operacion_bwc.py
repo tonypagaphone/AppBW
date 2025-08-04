@@ -277,6 +277,9 @@ def procesar_facturacion(revision_file, actualizacion_csv):
     nsp_claves = nuevos_si_procede['msisdn'].astype(str) + "_" + nuevos_si_procede['fechaRenovacionServicio'].astype(str)
     nr_claves = next_renewals['msisdn'].astype(str) + "_" + next_renewals['fechaRenovacionServicio'].astype(str)
     nuevos_para_renewals = nuevos_si_procede[~nsp_claves.isin(nr_claves)].copy()
+    nuevos_para_renewals['fechaRenovacionServicio'] = pd.to_datetime(
+    nuevos_para_renewals['fechaRenovacionServicio'], errors='coerce'
+    ).dt.date
     next_renewals_actualizado = pd.concat([next_renewals, nuevos_para_renewals], ignore_index=True)
 
     # === Paso 5: Guardar actualizaciones en la base operativa ===
