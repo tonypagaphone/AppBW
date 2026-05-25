@@ -290,6 +290,7 @@ def procesar_facturacion(revision_file, actualizacion_csv):
 
     # === Paso 6: Generar hoja Billing ===
     reactivaciones_df['msisdn'] = reactivaciones_df['msisdn'].astype('Int64')
+    nuevos_si_procede['fechaFacturacion'] = pd.to_datetime(nuevos_si_procede['fechaFacturacion'],errors='coerce')
     fechas_validas = nuevos_si_procede['fechaFacturacion'].dropna().unique()
     reactivaciones_df['fechaFacturacion'] = pd.to_datetime(reactivaciones_df['fechaFacturacion'], errors='coerce')
     reactivaciones_df = reactivaciones_df[reactivaciones_df['fechaFacturacion'].isin(fechas_validas)]
