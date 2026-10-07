@@ -63,6 +63,7 @@ def cargar_base_operativa():
     billing_existente = get_as_dataframe(sheet.worksheet("Billing"), dtype=str)
     activations = get_as_dataframe(sheet.worksheet("Activations"), dtype=str)
     renewals = get_as_dataframe(sheet.worksheet("Renewals"), dtype=str)
+    recarga_automatica = get_as_dataframe(sheet.worksheet("RecargaAutomatica"), dtype=str)
 
     # Retornar todo como diccionario
     return {
@@ -76,6 +77,7 @@ def cargar_base_operativa():
         "billing_existente": billing_existente,
         "activations": activations,
         "renewals": renewals,
+        "recarga_automatica": recarga_automatica,
         "spreadsheet": sheet  # necesario para escribir cambios después
     }
 
@@ -109,6 +111,7 @@ def generar_archivo_revision(first_renewal_day):
     data = cargar_base_operativa()
     activations = data['activations']
     renewals = data['renewals']
+    recarga_automatica = data['recarga_automatica']
     billing_days = data['billing_days']
     cancelations = data['cancelations']
     # === Paso 1: Preparar columnas de fechas ===
