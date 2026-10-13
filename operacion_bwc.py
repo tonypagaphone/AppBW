@@ -64,6 +64,7 @@ def cargar_base_operativa():
     activations = get_as_dataframe(sheet.worksheet("Activations"), dtype=str)
     renewals = get_as_dataframe(sheet.worksheet("Renewals"), dtype=str)
     recarga_automatica = get_as_dataframe(sheet.worksheet("RecargaAutomatica"), dtype=str)
+    recarga_extra = get_as_dataframe(sheet.worksheet("RecargaExtra"), dtype=str)
 
     # Retornar todo como diccionario
     return {
@@ -78,6 +79,7 @@ def cargar_base_operativa():
         "activations": activations,
         "renewals": renewals,
         "recarga_automatica": recarga_automatica,
+        "recarga_extra": recarga_extra,
         "spreadsheet": sheet  # necesario para escribir cambios después
     }
 
@@ -460,6 +462,16 @@ def procesar_recargas_dia(fecha_deseada):
     nombre_archivo = f"Recargas_diarias_{fecha_objetivo.date()}.xlsx"
     df_salida = recargas_hoy[['iccid', 'msisdn']].rename(columns={'iccid': 'icc_id'})
 
+    # --- recarga extra ---
+    def _n(s): return s.astype(str).str.replace("'", "", regex=False).str.strip()
+
+    extra = data['recarga_extra'].dropna(subset=['msisdn']).copy()
+    extra['_ms'] = _n(extra['msisdn'])
+    extra = extra.drop_duplicates('_ms', keep='last')
+
+    df_salida['_ms'] = _n(df_salida['msisdn'])
+    df_salida = df_salida.merge(extra[['_ms', 'montoExtra']], on='_ms', how='left').drop(columns='_ms')
+    
     return nombre_archivo, df_salida
 
 
