@@ -470,7 +470,7 @@ def procesar_recargas_dia(fecha_deseada):
     extra = extra.drop_duplicates('_ms', keep='last')
 
     df_salida['_ms'] = _n(df_salida['msisdn'])
-    df_salida = df_salida.merge(extra[['_ms', 'montoExtra']], on='_ms', how='left').drop(columns='_ms')
+    df_salida = df_salida.merge(extra[['_ms', 'bump']], on='_ms', how='left').drop(columns='_ms')
     
     return nombre_archivo, df_salida
 
